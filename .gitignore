@@ -1,0 +1,10 @@
+*.DS_Store
+*.swp
+*.swo
+*.tfstate
+*.tfstate.*
+**/.terraform/
+**/cdk.out
+**/.venv
+**/.terraform.lock.hcl
+

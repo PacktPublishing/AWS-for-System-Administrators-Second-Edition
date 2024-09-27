@@ -1,0 +1,1 @@
+{"errorMessage": "name 'json' is not defined", "errorType": "NameError", "requestId": "d16ae800-56b6-42a8-b4e7-ead6f49edfcf", "stackTrace": ["  File \"/var/task/handler.py\", line 10, in handler\n    secret_obj = json.loads(resp[\"SecretString\"])\n"]}

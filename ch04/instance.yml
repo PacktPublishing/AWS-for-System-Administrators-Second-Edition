@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "CloudFormation template to create an EC2 instance in a VPC"
+Parameters:
+  NetworkStack:
+    Type: "String"
+    Description: "Name of the networking stack that created our VPC"
+Resources:
+  SecurityGroupSSHAllow:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: instance-sg
+      GroupDescription: "Instance SG from CloudFormation"
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+        Description: "Allow SSH traffic into our instance"
+      VpcId:
+        Fn::ImportValue:
+          !Sub ${NetworkStack}-VpcId
+  Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: "us-east-1a"
+      BlockDeviceMappings:
+      - DeviceName: "/dev/sda1"
+        Ebs:
+          DeleteOnTermination: true
+          VolumeSize: 8
+          VolumeType: gp2
+      ImageId: "ami-01b799c439fd5516a"
+      InstanceType: "t2.micro"
+      NetworkInterfaces:
+      - Description: "Primary ENI"
+        DeviceIndex: 0
+        SubnetId:
+          Fn::ImportValue:
+            !Sub ${NetworkStack}-PublicSubnetA
+        GroupSet:
+        - Ref: SecurityGroupSSHAllow

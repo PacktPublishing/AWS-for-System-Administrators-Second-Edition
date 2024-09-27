@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "CloudFormation template to create and associate an IGW"
+Parameters:
+  NetworkStack:
+    Type: "String"
+Resources:
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub ${NetworkStack}-igw
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId:
+        Fn::ImportValue:
+          !Sub ${NetworkStack}-VpcId
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Fn::ImportValue:
+          !Sub ${NetworkStack}-VpcId
+      Tags:
+        - Key: Name
+          Value: !Sub ${NetworkStack}-public-rtb
+  RouteToInternet:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref PublicRouteTable
+  PublicRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId:
+        Fn::ImportValue:
+          !Sub ${NetworkStack}-PublicSubnetA
+
+
