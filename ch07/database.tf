@@ -96,8 +96,8 @@ resource "aws_db_instance" "postgres_primary" {
   backup_window           = "03:00-04:00"
   maintenance_window      = "mon:04:00-mon:04:30"
 
-  skip_final_snapshot    = false
-  final_snapshot_identifier = "tf-final-snapshot"
+  skip_final_snapshot    = true
+  # final_snapshot_identifier = "tf-final-snapshot-2"
 }
 
 resource "aws_db_instance" "postgres_replica" {

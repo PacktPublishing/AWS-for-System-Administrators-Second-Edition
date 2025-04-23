@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - wget -O terraform.zip https://releases.hashicorp.com/terraform/1.7.0/terraform_1.7.0_linux_amd64.zip
+      - unzip terraform.zip
+      - mv terraform /usr/local/bin/
+      - terraform --version
+
+  pre_build:
+    commands:
+      - terraform init
+      - terraform validate
+
+  build:
+    commands:
+      - terraform plan -out=out.tfplan
+      - if [ $CODEBUILD_WEBHOOK_EVENT = "PUSH" ] && [ $CODEBUILD_WEBHOOK_HEAD_REF = "refs/heads/main" ]; then terraform apply -auto-approve out.tfplan; fi
+
+reports:
+  terraform_plan:
+    files:
+      - out.tfplan
+    base-directory: .
+    file-format: TerraformPlan
