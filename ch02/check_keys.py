@@ -20,12 +20,13 @@ def main():
         user_name = user['UserName']
         key_response = iam.list_access_keys(UserName=user_name)
 
-        print(f"User: {user_name}")
+        print(f"User: <redacted>")
         for access_key in key_response["AccessKeyMetadata"]:
             key_id = access_key['AccessKeyId']
             age = get_key_age(access_key)
-
-            print(f"- {key_id}: {age}")
+            
+            mask = (len(key_id) - 6)*"*"
+            print(f"- {''.join(key_id[0:6])}{mask}: {age}")
 
             if age > MAX_AGE_DAYS:
                 keys_for_rotation.append((user_name, key_id))
@@ -33,6 +34,6 @@ def main():
     print()
     print("Keys for rotation:")
     for user, key_id in keys_for_rotation:
-        print(f"{key_id} from user {user}")
+        print(f"{''.join(key_id[0:6])} from user <redachted>")
 if __name__ == "__main__":
     main()

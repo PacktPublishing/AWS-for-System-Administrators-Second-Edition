@@ -10,4 +10,4 @@ class FirstCdkStackStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         # The code that defines your stack goes here
-        bucket = s3.Bucket(self, "my-first-bucket", bucket_name="<insert-unique-bucket-name>")
+        bucket = s3.Bucket(self, "my-first-bucket", bucket_name="marcel-unique-bucket-02384")

@@ -4,5 +4,5 @@ Resources:
   OurS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: <insert_unique_bucket_name>
+      BucketName: "marcel-unique-bucket-93dd0"
 

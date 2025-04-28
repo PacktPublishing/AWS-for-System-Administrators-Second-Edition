@@ -4,8 +4,6 @@ ec2_client = boto3.client("ec2")
 
 for region in ec2_client.describe_regions()["Regions"]:
     region_name = region["RegionName"]
-    if region_name != "us-east-1":
-        continue
     print(f"Checking volumes in {region_name}")
     
     ec2_resource = boto3.resource("ec2", region_name=region_name)
