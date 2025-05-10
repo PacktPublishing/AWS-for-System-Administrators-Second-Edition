@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "mn-tf-state-bucket" # Change this to your state bucket
+    bucket         = "<state bucket>" # Change this to your state bucket
     key            = "prod/terraform.tfstate"
     region         = "eu-central-1"
-    dynamodb_table = "terraform-lock-table" # Change this to your state table
+    dynamodb_table = "<name of your state table>" # Change this to your state table
     encrypt        = true
   }
 }
