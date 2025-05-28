@@ -1,4 +1,6 @@
-### IAM Least Privilege Policy
+> [!CAUTION]
+> This example deploys actual infrastructure that costs money. **Remember to log into the deployment account and destroy the resources (like the Aurora Cluster) to avoid charges**
+### IAM Policy for deployment
 
 The `policy.json` file provides a reasonably restricted set of permissions needed to deploy the Terraform configuration. However, for production environments, you could further restrict this policy to adhere to the principle of least privilege.
 
